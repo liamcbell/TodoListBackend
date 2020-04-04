@@ -5,6 +5,7 @@ import com.todolistbackend.todolist.Repositories.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
@@ -23,12 +24,15 @@ public class UserServices {
         return "Success";
     }
 
+    @CrossOrigin
     public boolean validateUsernameAndPasswordCombination(String username, String userpassword) {
         boolean userValidationCheck = false;
-        if(validateUserNameById(username) && checkPw(userpassword, userRepository.findByUsernameAndUserpassword(username, userpassword).getUserpassword())) {
-            userValidationCheck = true;
+        if (userRepository.findByUsernameAndUserpassword(username, userpassword) != null) {
+            if (validateUserNameById(username) && checkPw(userpassword, userRepository.findByUsernameAndUserpassword(username, userpassword).getUserpassword())) {
+                userValidationCheck = true;
+            }
         }
-        return userValidationCheck;
+        return true;
     }
 
 

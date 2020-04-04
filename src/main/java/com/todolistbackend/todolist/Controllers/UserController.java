@@ -17,14 +17,14 @@ public class UserController {
     @Autowired
     UserServices userServices;
 
-    @PostMapping("/user/registration-management")
+    @PostMapping("/user/registration")
     public String createNewUser(@RequestBody User user) {
        return userServices.createNewUser(user);
     }
 
-    @PostMapping("/user/login-management")
-    public boolean validateUserLoginAttempt(@RequestHeader String username, @RequestHeader String userpassword) {
-        return userServices.validateUsernameAndPasswordCombination(username, userpassword);
+    @PostMapping("/user/login")
+    public boolean validateUserLoginAttempt(@RequestBody User user) {
+        return userServices.validateUsernameAndPasswordCombination(user.getUsername(), user.getUserpassword());
     }
 
 }
