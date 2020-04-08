@@ -16,12 +16,13 @@ public class ItemServices {
     //Basic CRUD Operations
     public void createItem(Item item) {itemRepository.save(item);}
 
-    public List<Item> readItem (String username) {return itemRepository.findItemsByUsername(username);}
+    public List<Item> readItem (String[] usernameAndStatus) {return itemRepository.findItemsByUsernameAndStatus(usernameAndStatus[0], usernameAndStatus[1]);}
 
     public void updateItem (Item item) {
         itemRepository.save(item);
     }
 
-    public void deleteItem(Item item) {itemRepository.delete(item);}
+    public void deleteItem(Item item) {
+        itemRepository.deleteItemsWhereUsernameAndStatus(item.getUsername(), item.getStatus());}
 
 }

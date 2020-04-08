@@ -17,29 +17,37 @@ public class UserServices {
     UserRepository userRepository;
     BCrypt bCrypt;
 
-    public String createNewUser(User user) {
+    public boolean createNewUser(User user) {
         String encryptedPassword = encryptPassword(user.getUserpassword());
         user.setUserpassword(encryptedPassword);
-        userRepository.save(user);
-        return "Success";
+        User tempUser = new User();
+        tempUser.setUsername(user.getUsername());
+        tempUser.setUserpassword(user.getUserpassword());
+        boolean isUserCreated = false;
+        List<User> users = userRepository.findByUsername(user.getUsername());
+        if (userRepository.findByUsername(user.getUsername()).size() == 0) {
+            userRepository.save(tempUser);
+            isUserCreated = true;
+        }
+        return isUserCreated;
     }
 
     @CrossOrigin
     public boolean validateUsernameAndPasswordCombination(String username, String userpassword) {
         boolean userValidationCheck = false;
-        if (userRepository.findByUsernameAndUserpassword(username, userpassword) != null) {
-            if (validateUserNameById(username) && checkPw(userpassword, userRepository.findByUsernameAndUserpassword(username, userpassword).getUserpassword())) {
+        if (userRepository.findByUsername(username) != null) {
+            if (checkPw(userpassword, encryptPassword(userpassword))) {
                 userValidationCheck = true;
             }
         }
-        return true;
+        return userValidationCheck;
     }
 
 
     //Private Helper Methods for Logic in User Service
     private boolean validateUserNameById(String userName) {
 
-        List<String> repoResults = userRepository.findByUsername(userName);
+        List<User> repoResults = userRepository.findByUsername(userName);
         if(repoResults.size() > 0) {
             return false;
         } else {

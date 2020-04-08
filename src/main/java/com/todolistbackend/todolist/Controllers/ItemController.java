@@ -3,9 +3,7 @@ package com.todolistbackend.todolist.Controllers;
 import com.todolistbackend.todolist.Entities.Item;
 import com.todolistbackend.todolist.Services.ItemServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,14 +13,18 @@ public class ItemController {
     @Autowired
     ItemServices itemServices;
 
-    @PostMapping(value = "/item/itemCreation")
+    @PostMapping(value = "/item/create")
     public String itemCreation(@RequestBody Item item) {
         itemServices.createItem(item);
         return "Success";
     }
+
+
     @PostMapping(value = "/item/itemRead")
-    public List<Item> itemRead(@RequestBody String username) {
-        return itemServices.readItem(username);
+    public List<Item> itemRead(@RequestBody String[] usernameAndStatus) {
+        System.out.println("wait");
+        List<Item> items = itemServices.readItem(usernameAndStatus);
+        return items;
     }
     @PostMapping(value = "/item/itemUpdate")
     public String itemUpdate(@RequestBody Item item) {

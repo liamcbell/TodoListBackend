@@ -18,7 +18,7 @@ public class UserController {
     UserServices userServices;
 
     @PostMapping("/user/registration")
-    public String createNewUser(@RequestBody User user) {
+    public boolean createNewUser(@RequestBody User user) {
        return userServices.createNewUser(user);
     }
 

@@ -1,9 +1,6 @@
 package com.todolistbackend.todolist.Entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Item {
@@ -13,6 +10,25 @@ public class Item {
     private int id;
     private String username;
     private String item;
+    @Column(name = "completed", columnDefinition = "BOOLEAN")
+    private boolean completed;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = true;
+    }
 
     public String getItem() {
         return item;
