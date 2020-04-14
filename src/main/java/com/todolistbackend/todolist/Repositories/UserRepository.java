@@ -16,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT * FROM User u WHERE u.username = ?1 AND u.userpassword = ?2", nativeQuery = true)
     User findByUsernameAndUserpassword(String username, String userpassword);
 
+    @Query(value = "SELECT username FROM User u WHERE u.username LIKE ?1%", nativeQuery = true)
+    List<String> findByFirstCharacter(String firstCharacter);
 }

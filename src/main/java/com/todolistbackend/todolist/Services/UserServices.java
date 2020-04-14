@@ -63,4 +63,8 @@ public class UserServices {
     private String encryptPassword(String userPassword) {
         return bCrypt.hashpw(userPassword, BCrypt.gensalt(6));
     }
+
+    public List<String> readAllUsers(String firstCharacter) {
+        return userRepository.findByFirstCharacter(firstCharacter);
+    }
 }
